@@ -21,31 +21,31 @@ func main() {
 	fmt.Println(bodyVal.String())
 	fmt.Println(respObj)
 
-	err := respObj.Set("this", respObj)
-	if err != nil {
-		panic(err)
-	}
+	// err := respObj.Set("this", respObj)
+	// if err != nil {
+	// 	panic(err)
+	// }
 
 	textVal, _ := respObj.Get("text")
 	fmt.Println(textVal)
 
-	textObj, _ := textVal.AsObject()
-	fmt.Println(textObj)
+	// textObj, _ := textVal.AsObject()
+	// fmt.Println(textObj)
 
-	textFn, _ := textObj.AsFunction()
+	textFn, _ := textVal.AsFunction()
 	fmt.Println(textFn)
 
-	bindVal, _ := textObj.Get("bind")
-	fmt.Println(bindVal)
+	// bindVal, _ := textObj.Get("bind")
+	// fmt.Println(bindVal)
 
-	bindFn, _ := bindVal.AsFunction()
-	fmt.Println(bindFn)
+	// bindFn, _ := bindVal.AsFunction()
+	// fmt.Println(bindFn)
 
-	v, e := textFn.Call(bindFn, respObj)
-	if e != nil {
-		panic(e)
-	}
-	fmt.Println(v)
+	// v, e := textFn.Call(bindFn, respObj)
+	// if e != nil {
+	// 	panic(e)
+	// }
+	// fmt.Println(v)
 
 	// value, err := bindFn.Call(respObj)
 	// if err != nil {
