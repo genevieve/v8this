@@ -3,8 +3,7 @@ class Response {
     this.body = body;
   }
   text() {
-    let that = this;
-    return that.body.toString();
+    return this.body.toString();
   }
 }
 
