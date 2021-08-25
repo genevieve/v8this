@@ -178,9 +178,7 @@ ValuePtr PromiseThen2(ValuePtr ptr, int on_fulfilled_ref, int on_rejected_ref);
 ValuePtr PromiseCatch(ValuePtr ptr, int callback_ref);
 extern ValuePtr PromiseResult(ValuePtr ptr);
 
-extern RtnValue FunctionCall(ValuePtr ptr, int argc, ValuePtr argv[]);
-extern RtnValue ObjectCall(ValuePtr ptr, const char* key, int argc, ValuePtr argv[]);
-
+extern RtnValue FunctionCall(ValuePtr ptr, ValuePtr recv, int argc, ValuePtr argv[]);
 extern ValuePtr ExceptionError(IsolatePtr iso_ptr, const char* message);
 extern ValuePtr ExceptionRangeError(IsolatePtr iso_ptr, const char* message);
 extern ValuePtr ExceptionReferenceError(IsolatePtr iso_ptr,

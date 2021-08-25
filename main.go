@@ -33,10 +33,19 @@ func main() {
 		panic(err)
 	}
 
-	val, err = respObj.Call("text")
+	textVal, err := respObj.Get("text")
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println(val.String())
+	textFn, err := textVal.AsFunction()
+	if err != nil {
+		panic(err)
+	}
+
+	text, err := textFn.Call(respObj)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(text.String())
 }
