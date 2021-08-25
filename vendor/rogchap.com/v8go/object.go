@@ -77,6 +77,22 @@ func (o *Object) GetIdx(idx uint32) (*Value, error) {
 	return getValue(o.ctx, rtn), getError(rtn)
 }
 
+func (o *Object) Call(fnName string, args ...Valuer) (*Value, error) {
+	var argptr *C.ValuePtr
+	if len(args) > 0 {
+		var cArgs = make([]C.ValuePtr, len(args))
+		for i, arg := range args {
+			cArgs[i] = arg.value().ptr
+		}
+		argptr = (*C.ValuePtr)(unsafe.Pointer(&cArgs[0]))
+	}
+	ckey := C.CString(fnName)
+	defer C.free(unsafe.Pointer(ckey))
+
+	rtn := C.ObjectCall(o.ptr, ckey, C.int(len(args)), argptr)
+	return getValue(o.ctx, rtn), getError(rtn)
+}
+
 // Has calls the abstract operation HasProperty(O, P) described in ECMA-262, 7.3.10.
 // Returns true, if the object has the property, either own or on the prototype chain.
 func (o *Object) Has(key string) bool {

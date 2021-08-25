@@ -5,9 +5,6 @@ class Response {
   text() {
     return this.body.toString();
   }
-  // text(body) {
-  //   return body.toString();
-  // }
 }
 
-new Response("this body");
+new Response("Hello, World");

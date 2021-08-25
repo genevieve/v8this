@@ -1010,6 +1010,37 @@ RtnValue ObjectGet(ValuePtr ptr, const char* key) {
   return rtn;
 }
 
+RtnValue ObjectCall(ValuePtr ptr, const char* key, int argc, ValuePtr args[]) {
+  LOCAL_OBJECT(ptr);
+  RtnValue rtn = {nullptr, nullptr};
+
+  Local<String> key_val =
+      String::NewFromUtf8(iso, key, NewStringType::kNormal).ToLocalChecked();
+  Local<Value> maybeFn = obj->Get(local_ctx, key_val).ToLocalChecked();
+  if (!maybeFn->IsFunction()) {
+    rtn.error = ExceptionError(try_catch, iso, local_ctx);
+    return rtn;
+  }
+  Local<Function> fn = Local<Function>::Cast(maybeFn);
+  Local<Value> argv[argc];
+  for (int i = 0; i < argc; i++) {
+    m_value* arg = static_cast<m_value*>(args[i]);
+    argv[i] = arg->ptr.Get(iso);
+  }
+  /* Local<Value> recv = Undefined(iso); */
+  MaybeLocal<Value> result = fn->Call(local_ctx, obj, argc, argv);
+  if (result.IsEmpty()) {
+    rtn.error = ExceptionError(try_catch, iso, local_ctx);
+    return rtn;
+  }
+  m_value* rtnval = new m_value;
+  rtnval->iso = iso;
+  rtnval->ctx = ctx;
+  rtnval->ptr = Persistent<Value, CopyablePersistentTraits<Value>>(iso, result.ToLocalChecked());
+  rtn.value = tracked_value(ctx, rtnval);
+  return rtn;
+}
+
 RtnValue ObjectGetIdx(ValuePtr ptr, uint32_t idx) {
   LOCAL_OBJECT(ptr);
   RtnValue rtn = {nullptr, nullptr};
