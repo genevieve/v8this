@@ -48,4 +48,18 @@ func main() {
 		panic(err)
 	}
 	fmt.Println(text.String())
+
+	globalText, err := ctx.Global().Get("text")
+	if err != nil {
+		panic(err)
+	}
+	globalTextFn, err := globalText.AsFunction()
+	if err != nil {
+		panic(err)
+	}
+	text, err = globalTextFn.Call(ctx.Global())
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(text.String())
 }
