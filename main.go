@@ -13,11 +13,12 @@ func main() {
 	ctx, _ := v8go.NewContext(iso)
 	val, _ := ctx.RunScript(string(script), "script.js")
 	respObj, _ := val.AsObject()
-	bodyVal, _ := respObj.Get("body")
+	// bodyVal, _ := respObj.Get("body")
 	textVal, _ := respObj.Get("text")
 	textFn, _ := textVal.AsFunction()
 
-	body, err := textFn.Call(bodyVal)
+	// body, err := textFn.Call(bodyVal)
+	body, err := textFn.Call()
 	if err != nil {
 		panic(err)
 	}
